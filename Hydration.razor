@@ -1,0 +1,36 @@
+@page "/hydration"
+@rendermode InteractiveServer
+
+<h3>Hydration Tracker</h3>
+
+<p>Glasses of water left today: <strong>@_glassesLeft</strong></p>
+<p>Progress: <strong>@ProgressPercent</strong></p>
+
+<button class="btn btn-primary me-2" @onclick="DrinkGlass">I drank one!</button>
+<button class="btn btn-secondary" @onclick="Reset">Reset</button>
+
+@code {
+    private int _dailyTarget = 8;
+    private int _glassesLeft;
+
+    protected override void OnInitialized()
+    {
+        _glassesLeft = _dailyTarget;
+    }
+
+    private void DrinkGlass()
+    {
+        if (_glassesLeft > 0)
+        {
+            _glassesLeft--;
+        }
+    }
+
+    private void Reset()
+    {
+        _glassesLeft = _dailyTarget;
+    }
+
+    private string ProgressPercent =>
+        $"{(int)(((_dailyTarget - _glassesLeft) / (double)_dailyTarget) * 100)}%";
+}
